@@ -1,27 +1,62 @@
 #include <string>
-#include "RedisClient.hpp"
+#include "test/TestBase.hpp"
+#include "test/TestBase.hpp"
+#include "test/TestGeneric.hpp"
+#include "test/TestString.hpp"
+#include "test/TestList.hpp"
+#include "test/TestSet.hpp"
+#include "test/TestHash.hpp"
+#include "test/TestZset.hpp"
+#include "test/TestConcur.hpp"
+
+using namespace std;
 
 int main(int argc, char **argv) {
-    CRedisClient* redisCli = CRedisClient::Instance();
+    const std::string strHost = "127.0.0.1";
 
-    if (!redisCli->Initialize("127.0.0.1", 6379, 2, 10))
-    {
-        std::cout << "connect to redis failed" << std::endl;
-        return -1;
-    }
+    do{
+        cout << "=============CTestBase=============" << endl;
+        CTestBase testBase;
+        if (!testBase.StartTest(strHost))
+            break;
 
-    std::string strKey = "name";
-    std::string strVal;
-    if (redisCli->Get(strKey, &strVal) == RC_SUCCESS)
-    {
-        std::cout << strKey << " has value " << strVal << std::endl;
-        return 0;
-    }
-    else
-    {
-        std::cout << "request failed" << std::endl;
-        return -1;
-    }
+        cout << "=============CTestGeneric=============" << endl;
+        CTestGeneric testKeys;
+        if (!testKeys.StartTest(strHost))
+            break;
+
+        cout << "=============CTestString=============" << endl;
+        CTestString testStr;
+        if (!testStr.StartTest(strHost))
+            break;
+
+        cout << "=============CTestList=============" << endl;
+        CTestList testList;
+        if (!testList.StartTest(strHost))
+            break;
+
+        cout << "=============CTestSet=============" << endl;
+        CTestSet testSet;
+        if (!testSet.StartTest(strHost))
+            break;
+
+        cout << "=============CTestHash=============" << endl;
+        CTestHash testHash;
+        if (!testHash.StartTest(strHost))
+            break;
+
+        cout << "=============CTestZset=============" << endl;
+        CTestZset testZset;
+        if (!testZset.StartTest(strHost))
+            break;
+
+        cout << "=============CTestConcur=============" << endl;
+        CTestConcur testConcur;
+        if (!testConcur.StartTest(strHost))
+            break;
+    }while(false);
+
+    cout << "test end" << endl;
 
     return 0;
 }
