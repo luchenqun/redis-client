@@ -1,0 +1,10 @@
+SET(SOURCE_FILES
+    async.h
+    dict.h
+    fmacros.h
+    hiredis.h
+    net.h
+    read.h
+    sds.h
+    win32.h
+)
