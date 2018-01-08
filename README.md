@@ -63,45 +63,46 @@ int main(int argc, char **argv) {
 | RC_NOT_SUPPORT   | -6    | Redis服务不支持 |
 | RC_SLOT_CHANGED  | -100  | info            |
 
->### static CRedisClient* Instance()
->获取单例指针。
+### static CRedisClient* Instance()
+获取单例指针。
 
->### CRedisClient();
->构造函数，构造一个CRedisClient对象。
+### CRedisClient();
+构造函数，构造一个CRedisClient对象。
 
->### bool Initialize(const std::string &strHost, int nPort, int nTimeout, int nConnNum)
->初始化链接。
+### bool Initialize(const std::string &strHost, int nPort, int nTimeout, int nConnNum)
+初始化链接。
 
 ### **[Redis Key 用于管理键](http://www.redis.cn/commands.html#generic)**
->### int Del(const std::string &strKey, long *pnVal = nullptr, Pipeline ppLine = nullptr)
->[删除键](http://www.redis.cn/commands/del.html)。strKey：键。pnVal：被删除键的个数。ppLine：管道。
+### int Del(const std::string &strKey, long *pnVal = nullptr, Pipeline ppLine = nullptr)
+[删除键](http://www.redis.cn/commands/del.html)。strKey：键。pnVal：被删除键的个数。ppLine：管道。
 
->### int Dump(const std::string &strKey, std::string *pstrVal, Pipeline ppLine = nullptr)
->[序列化给定 key ，并返回被序列化的值](http://www.redis.cn/commands/dump.html)。strKey：键。pstrVal：序列化后的值。ppLine：管道。
+### int Dump(const std::string &strKey, std::string *pstrVal, Pipeline ppLine = nullptr)
+[序列化给定 key ，并返回被序列化的值](http://www.redis.cn/commands/dump.html)。strKey：键。pstrVal：序列化后的值。ppLine：管道。
 
->### int Exists(const std::string &strKey, long *pnVal, Pipeline ppLine = nullptr)
->[key是否存在](http://www.redis.cn/commands/exists.html)。strKey：键。pnVal：若为1则key存在，为0则不存在。ppLine：管道。
+### int Exists(const std::string &strKey, long *pnVal, Pipeline ppLine = nullptr)
+[key是否存在](http://www.redis.cn/commands/exists.html)。strKey：键。pnVal：若为1则key存在，为0则不存在。ppLine：管道。
 
->### int Expire(const std::string &strKey, long nSec, long *pnVal = nullptr, Pipeline ppLine = nullptr)
->[设置key的过期时间，超过时间后，将会自动删除该key](http://www.redis.cn/commands/expire.html)。strKey：键。nSec：过期时间，单位秒。pnVal：1 如果成功设置过期时间，0 如果key不存在或者不能设置过期时间。ppLine：管道。
+### int Expire(const std::string &strKey, long nSec, long *pnVal = nullptr, Pipeline ppLine = nullptr)
+[设置key的过期时间，超过时间后，将会自动删除该key](http://www.redis.cn/commands/expire.html)。strKey：键。nSec：过期时间，单位秒。pnVal：1 如果成功设置过期时间，0 如果key不存在或者不能设置过期时间。ppLine：管道。
 
 ### int Expireat(const std::string &strKey, long nTime, long *pnVal = nullptr, Pipeline ppLine = nullptr)
->[设置key的过期时间，超过时间后，将会自动删除该key](http://www.redis.cn/commands/expireat.html)。参考Expire，不同的是命令接受的时间参数是 UNIX 时间戳 Unix timestamp。
+[设置key的过期时间，超过时间后，将会自动删除该key](http://www.redis.cn/commands/expireat.html)。参考Expire，不同的是命令接受的时间参数是 UNIX 时间戳 Unix timestamp。
 
-### int Keys(const std::string &strPattern, std::vector<std::string> *pvecVal)
->[查找所有符合给定模式pattern（正则表达式）的 key](http://www.redis.cn/commands/keys.html)。strPattern：键的正则表达模式。pvecVal：所有符合条件的key。
+### int Keys(const std::string &strPattern, std::vector<std::string *pvecVal)
+[查找所有符合给定模式pattern（正则表达式）的 key](http://www.redis.cn/commands/keys.html)。strPattern：键的正则表达模式。pvecVal：所有符合条件的key。
 
 ### int Persist(const std::string &strKey, long *pnVal = nullptr, Pipeline ppLine = nullptr);
->[移除给定key的生存时间，将这个 key 从『易失的』(带生存时间 key )转换成『持久的』(一个不带生存时间、永不过期的 key )。](http://www.redis.cn/commands/persist.html)。strKey：键。pnVal：当生存时间移除成功时，返回 1。如果 key 不存在或 key 没有设置生存时间，返回 0 。ppLine：管道。
+[移除给定key的生存时间，将这个 key 从『易失的』(带生存时间 key )转换成『持久的』(一个不带生存时间、永不过期的 key )。](http://www.redis.cn/commands/persist.html)。strKey：键。pnVal：当生存时间移除成功时，返回 1。如果 key 不存在或 key 没有设置生存时间，返回 0 。ppLine：管道。
 
 ### int Pexpire(const std::string &strKey, long nMilliSec, long *pnVal = nullptr, Pipeline ppLine = nullptr)
->[设置key的过期时间，超过时间后，将会自动删除该key](http://www.redis.cn/commands/pexpire.html)。参考Expire，不同的是它以毫秒为单位设置 key 的生存时间。
+[设置key的过期时间，超过时间后，将会自动删除该key](http://www.redis.cn/commands/pexpire.html)。参考Expire，不同的是它以毫秒为单位设置 key 的生存时间。
 
 ### int Pexpireat(const std::string &strKey, long nMilliTime, long *pnVal = nullptr, Pipeline ppLine = nullptr)
->[设置key的过期时间，超过时间后，将会自动删除该key](http://www.redis.cn/commands/pexpireat.html)。参考Pexpire，不同的是它以毫秒为单位设置 key 的过期 UNIX 时间戳。
+[设置key的过期时间，超过时间后，将会自动删除该key](http://www.redis.cn/commands/pexpireat.html)。参考Pexpire，不同的是它以毫秒为单位设置 key 的过期 UNIX 时间戳。
 
 ### int Pttl(const std::string &strKey, long *pnVal, Pipeline ppLine = nullptr)
->[以毫秒为单位返回 key 的剩余生存时间](http://www.redis.cn/commands/pttl.html)。strKey：键。pnVal：如果key不存在返回-2，如果key存在且无过期时间返回-1 。ppLine：管道。
+[以毫秒为单位返回 key 的剩余生存时间](http://www.redis.cn/commands/pttl.html)。strKey：键。pnVal：如果key不存在返回-2，如果key存在且无过期时间返回-1 。ppLine：管道。
+
 
 ## 接口一览
 ```C++
