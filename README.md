@@ -45,7 +45,7 @@ int main(int argc, char **argv) {
 ```
 
 ## API 使用说明
-先说一下调用接口的一些返回值，在后面文档均用RequestRet描述。
+先说一下调用接口的一些返回值，在后面文档均用RequestRet描述。   
 | Macro definition | Value | Description     |
 | ---------------- | ----- | --------------- |
 | RC_RESULT_EOF    | 5     | info            |
