@@ -63,37 +63,29 @@ int main(int argc, char **argv) {
 | RC_NOT_SUPPORT   | -6    | Redis服务不支持 |
 | RC_SLOT_CHANGED  | -100  | info            |
 
+### static CRedisClient* Instance()
+获取单例指针。
+
+### CRedisClient();
+构造函数，构造一个CRedisClient对象。
+
+### bool Initialize(const std::string &strHost, int nPort, int nTimeout, int nConnNum);
+初始化链接。
+
 ### **[Redis Key 用于管理键](http://www.redis.cn/commands.html#generic)**
 ### int Del(const std::string &strKey, long *pnVal = nullptr, Pipeline ppLine = nullptr)
-删除键。   
-入参：
-* `strKey`：string& 键
-* `pnVal`：long*  删除个数   
+[删除键](http://www.redis.cn/commands/del.html)。   
+`strKey`：键。`pnVal`：被删除键的个数。`ppLine`：管道。
 
-出参：
-* `ret`：RequestRet 执行结果
+### int Dump(const std::string &strKey, std::string *pstrVal, Pipeline ppLine = nullptr);
+[序列化给定 key ，并返回被序列化的值](http://www.redis.cn/commands/dump.html)。   
+`strKey`：键。`pstrVal`：序列化后的值。`ppLine`：管道。
+
 
 ## 接口一览
 ```C++
-static CRedisClient* Instance()
-
-CRedisClient();
-
-bool Initialize(const std::string &strHost, int nPort, int nTimeout, int nConnNum);
-bool IsCluster() { return m_bCluster; }
-
-Pipeline CreatePipeline();
-int FlushPipeline(Pipeline ppLine);
-int FetchReply(Pipeline ppLine, long *pnVal);
-int FetchReply(Pipeline ppLine, std::string *pstrVal);
-int FetchReply(Pipeline ppLine, std::vector<long> *pvecLongVal);
-int FetchReply(Pipeline ppLine, std::vector<std::string> *pvecStrVal);
-int FetchReply(Pipeline ppLine, redisReply **pReply);
-void FreePipeline(Pipeline ppLine);
-
 /* interfaces for generic */
-int Del(const std::string &strKey, long *pnVal = nullptr, Pipeline ppLine = nullptr);
-int Dump(const std::string &strKey, std::string *pstrVal, Pipeline ppLine = nullptr);
+
 int Exists(const std::string &strKey, long *pnVal, Pipeline ppLine = nullptr);
 int Expire(const std::string &strKey, long nSec, long *pnVal = nullptr, Pipeline ppLine = nullptr);
 int Expireat(const std::string &strKey, long nTime, long *pnVal = nullptr, Pipeline ppLine = nullptr);
@@ -214,5 +206,14 @@ int Zscore(const std::string &strKey, const std::string &strElem, double *pdVal,
 
 /* interfaces for system */
 int Time(struct timeval *ptmVal, Pipeline ppLine = nullptr);
+
+Pipeline CreatePipeline();
+int FlushPipeline(Pipeline ppLine);
+int FetchReply(Pipeline ppLine, long *pnVal);
+int FetchReply(Pipeline ppLine, std::string *pstrVal);
+int FetchReply(Pipeline ppLine, std::vector<long> *pvecLongVal);
+int FetchReply(Pipeline ppLine, std::vector<std::string> *pvecStrVal);
+int FetchReply(Pipeline ppLine, redisReply **pReply);
+void FreePipeline(Pipeline ppLine);
 ```
 
