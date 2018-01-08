@@ -72,6 +72,8 @@ int main(int argc, char **argv) {
 ### bool Initialize(const std::string &strHost, int nPort, int nTimeout, int nConnNum)
 初始化链接。
 
+------------------------------------------------------------------------
+
 ### **[Redis Key 用于管理键](http://www.redis.cn/commands.html#generic)**
 ### int Del(const std::string &strKey, long *pnVal = nullptr, Pipeline ppLine = nullptr)
 [删除键](http://www.redis.cn/commands/del.html)。strKey：键。pnVal：被删除键的个数。ppLine：管道。
@@ -118,15 +120,21 @@ int main(int argc, char **argv) {
 ### int Restore(const std::string &strKey, long nTtl, const std::string &strVal, Pipeline ppLine = nullptr)
 [反序列化给定的序列化值，并将它和给定的 key 关联](http://www.redis.cn/commands/restore.html)。strKey：旧键值。nTtl：毫秒为单位为 key 设置生存时间。ppLine：管道。
 
+### int Scan(long *pnCursor, const std::string &strPattern, long nCount, std::vector<std::string> *pvecVal)
+[迭代当前数据库中的key集合](http://www.redis.cn/commands/scan.html)。pnCursor：游标。strPattern：正则表达式。nCount：数量。pvecVal：值。
+
+### int Ttl(const std::string &strKey, long *pnVal, Pipeline ppLine = nullptr)
+[以秒为单位返回 key 的剩余生存时间](http://www.redis.cn/commands/ttl.html)。strKey：键。pnVal：如果key不存在返回-2，如果key存在且无过期时间返回-1 。ppLine：管道。
+
+### int Type(const std::string &strKey, std::string *pstrVal, Pipeline ppLine = nullptr)
+[返回key所存储的value的数据结构类型，它可以返回string, list, set, zset 和 hash等不同的类型](http://www.redis.cn/commands/type.html)。strKey：键。pstrVal：类型，不存在返回none。ppLine：管道。
+
+------------------------------------------------------------------------
+
+### **[Redis String 字符串](http://www.redis.cn/commands.html#string)**
 
 ## 接口一览
 ```C++
-/* interfaces for generic */
-
-int Scan(long *pnCursor, const std::string &strPattern, long nCount, std::vector<std::string> *pvecVal)
-int Ttl(const std::string &strKey, long *pnVal, Pipeline ppLine = nullptr)
-int Type(const std::string &strKey, std::string *pstrVal, Pipeline ppLine = nullptr)
-
 /* interfaces for string */
 int Append(const std::string &strKey, const std::string &strVal, long *pnVal = nullptr, Pipeline ppLine = nullptr)
 int Bitcount(const std::string &strKey, long *pnVal, Pipeline ppLine = nullptr)
