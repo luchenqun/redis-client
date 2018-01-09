@@ -37,7 +37,7 @@ bool CTestPipeline::StartTest(const std::string &strHost)
                           << ", str = " << (pReply->len > 0 ? pReply->str : "")
                           << ", elements = " << pReply->elements << std::endl;
             }
-
+            m_redis.FreePipeline(pipeline);
             bSuccess = true;
         }
     }
