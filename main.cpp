@@ -1,6 +1,5 @@
 #include <string>
 #include "test/TestBase.hpp"
-#include "test/TestBase.hpp"
 #include "test/TestGeneric.hpp"
 #include "test/TestString.hpp"
 #include "test/TestList.hpp"
@@ -8,6 +7,7 @@
 #include "test/TestHash.hpp"
 #include "test/TestZset.hpp"
 #include "test/TestConcur.hpp"
+#include "test/TestPipeline.hpp"
 
 using namespace std;
 
@@ -15,6 +15,11 @@ int main(int argc, char **argv) {
     const std::string strHost = "127.0.0.1";
 
     do{
+        cout << "=============CTestPipeline=============" << endl;
+        CTestPipeline testPipeline;
+        if (!testPipeline.StartTest(strHost))
+            break;
+
         cout << "=============CTestBase=============" << endl;
         CTestBase testBase;
         if (!testBase.StartTest(strHost))
