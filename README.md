@@ -46,21 +46,20 @@ int main(int argc, char **argv) {
 更多测试用例，请看[test](test/)目录。
 
 ## 接口一览
-static CRedisClient* Instance()
+static CRedisClient* Instance()  
+CRedisClient()  
+// nTimeout: 连接超时时间，单位秒。nConnNum：连接池数目   
+bool Initialize(const std::string &strHost, int nPort, int nTimeout, int nConnNum)  
+bool IsCluster()  
 
-CRedisClient();
-
-bool Initialize(const std::string &strHost, int nPort, int nTimeout, int nConnNum);
-bool IsCluster() { return m_bCluster; }
-
-Pipeline CreatePipeline();
-int FlushPipeline(Pipeline ppLine);
-int FetchReply(Pipeline ppLine, long *pnVal);
-int FetchReply(Pipeline ppLine, std::string *pstrVal);
-int FetchReply(Pipeline ppLine, std::vector<long> *pvecLongVal);
-int FetchReply(Pipeline ppLine, std::vector<std::string> *pvecStrVal);
-int FetchReply(Pipeline ppLine, redisReply **pReply);
-void FreePipeline(Pipeline ppLine);
+Pipeline CreatePipeline()  
+int FlushPipeline(Pipeline ppLine)  
+int FetchReply(Pipeline ppLine, long *pnVal)  
+int FetchReply(Pipeline ppLine, std::string *pstrVal)  
+int FetchReply(Pipeline ppLine, std::vector<long> *pvecLongVal)  
+int FetchReply(Pipeline ppLine, std::vector<std::string> *pvecStrVal)  
+int FetchReply(Pipeline ppLine, redisReply **pReply)  
+void FreePipeline(Pipeline ppLine)  
 
 /* interfaces for generic */  
 int [Del](http://www.redis.cn/commands/del.html)(const std::string &strKey, long *pnVal = nullptr, Pipeline ppLine = nullptr)  
