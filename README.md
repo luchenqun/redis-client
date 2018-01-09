@@ -46,7 +46,6 @@ int main(int argc, char **argv) {
 更多测试用例，请看[test](test/)目录。
 
 ## 接口一览
-```C++
 static CRedisClient* Instance()
 
 CRedisClient();
@@ -63,130 +62,129 @@ int FetchReply(Pipeline ppLine, std::vector<std::string> *pvecStrVal);
 int FetchReply(Pipeline ppLine, redisReply **pReply);
 void FreePipeline(Pipeline ppLine);
 
-/* interfaces for generic */
-int Del(const std::string &strKey, long *pnVal = nullptr, Pipeline ppLine = nullptr);
-int Dump(const std::string &strKey, std::string *pstrVal, Pipeline ppLine = nullptr);
-int Exists(const std::string &strKey, long *pnVal, Pipeline ppLine = nullptr);
-int Expire(const std::string &strKey, long nSec, long *pnVal = nullptr, Pipeline ppLine = nullptr);
-int Expireat(const std::string &strKey, long nTime, long *pnVal = nullptr, Pipeline ppLine = nullptr);
-int Keys(const std::string &strPattern, std::vector<std::string> *pvecVal);
-int Persist(const std::string &strKey, long *pnVal = nullptr, Pipeline ppLine = nullptr);
-int Pexpire(const std::string &strKey, long nMilliSec, long *pnVal = nullptr, Pipeline ppLine = nullptr);
-int Pexpireat(const std::string &strKey, long nMilliTime, long *pnVal = nullptr, Pipeline ppLine = nullptr);
-int Pttl(const std::string &strKey, long *pnVal, Pipeline ppLine = nullptr);
-int Randomkey(std::string *pstrVal, Pipeline ppLine = nullptr);
-int Rename(const std::string &strKey, const std::string &strNewKey);
-int Renamenx(const std::string &strKey, const std::string &strNewKey);
-int Restore(const std::string &strKey, long nTtl, const std::string &strVal, Pipeline ppLine = nullptr);
-int Scan(long *pnCursor, const std::string &strPattern, long nCount, std::vector<std::string> *pvecVal);
-int Ttl(const std::string &strKey, long *pnVal, Pipeline ppLine = nullptr);
-int Type(const std::string &strKey, std::string *pstrVal, Pipeline ppLine = nullptr);
-
-/* interfaces for string */
-int Append(const std::string &strKey, const std::string &strVal, long *pnVal = nullptr, Pipeline ppLine = nullptr);
-int Bitcount(const std::string &strKey, long *pnVal, Pipeline ppLine = nullptr);
-int Bitcount(const std::string &strKey, long nStart, long nEnd, long *pnVal, Pipeline ppLine = nullptr);
-int Bitop(const std::string &strDestKey, const std::string &strOp, const std::vector<std::string> &vecKey, long *pnVal = nullptr, Pipeline ppLine = nullptr);
-int Bitpos(const std::string &strKey, long nBitVal, long *pnVal, Pipeline ppLine = nullptr);
-int Bitpos(const std::string &strKey, long nBitVal, long nStart, long nEnd, long *pnVal, Pipeline ppLine = nullptr);
-int Decr(const std::string &strKey, long *pnVal = nullptr, Pipeline ppLine = nullptr);
-int Decrby(const std::string &strKey, long nDecr, long *pnVal = nullptr, Pipeline ppLine = nullptr);
-int Get(const std::string &strKey, std::string *pstrVal, Pipeline ppLine = nullptr);
-int Getbit(const std::string &strKey, long nOffset, long *pnVal, Pipeline ppLine = nullptr);
-int Getrange(const std::string &strKey, long nStart, long nEnd, std::string *pstrVal, Pipeline ppLine = nullptr);
-int Getset(const std::string &strKey, std::string *pstrVal, Pipeline ppLine = nullptr);
-int Incr(const std::string &strKey, long *pnVal, Pipeline ppLine = nullptr);
-int Incrby(const std::string &strKey, long nIncr, long *pnVal, Pipeline ppLine = nullptr);
-int Incrbyfloat(const std::string &strKey, double dIncr, double *pdVal, Pipeline ppLine = nullptr);
-int Mget(const std::vector<std::string> &vecKey, std::vector<std::string> *pvecVal);
-int Mset(const std::vector<std::string> &vecKey, const std::vector<std::string> &vecVal);
-int Psetex(const std::string &strKey, long nMilliSec, const std::string &strVal, Pipeline ppLine = nullptr);
-int Set(const std::string &strKey, const std::string &strVal, Pipeline ppLine = nullptr);
-int Setbit(const std::string &strKey, long nOffset, bool bVal, Pipeline ppLine = nullptr);
-int Setex(const std::string &strKey, long nSec, const std::string &strVal, Pipeline ppLine = nullptr);
-int Setnx(const std::string &strKey, const std::string &strVal, Pipeline ppLine = nullptr);
-int Setrange(const std::string &strKey, long nOffset, const std::string &strVal, long *pnVal = nullptr, Pipeline ppLine = nullptr);
-int Strlen(const std::string &strKey, long *pnVal, Pipeline ppLine = nullptr);
-
-/* interfaces for list */
-int Blpop(const std::string &strKey, long nTimeout, std::vector<std::string> *pvecVal);
-int Blpop(const std::vector<std::string> &vecKey, long nTimeout, std::vector<std::string> *pvecVal);
-int Brpop(const std::string &strKey, long nTimeout, std::vector<std::string> *pvecVal);
-int Brpop(const std::vector<std::string> &vecKey, long nTimeout, std::vector<std::string> *pvecVal);
-int Lindex(const std::string &strKey, long nIndex, std::string *pstrVal, Pipeline ppLine = nullptr);
-int Linsert(const std::string &strKey, const std::string &strPos, const std::string &strPivot, const std::string &strVal, long *pnVal, Pipeline ppLine = nullptr);
-int Llen(const std::string &strKey, long *pnVal, Pipeline ppLine = nullptr);
-int Lpop(const std::string &strKey, std::string *pstrVal, Pipeline ppLine = nullptr);
-int Lpush(const std::string &strKey, const std::string &strVal, long *pnVal = nullptr, Pipeline ppLine = nullptr);
-int Lpush(const std::string &strKey, const std::vector<std::string> &vecVal, Pipeline ppLine = nullptr);
-int Lpushx(const std::string &strKey, const std::string &strVal, long *pnVal = nullptr, Pipeline ppLine = nullptr);
-int Lrange(const std::string &strKey, long nStart, long nStop, std::vector<std::string> *pvecVal, Pipeline ppLine = nullptr);
-int Lrem(const std::string &strKey, long nCount, const std::string &strVal, long *pnVal = nullptr, Pipeline ppLine = nullptr);
-int Lset(const std::string &strKey, long nIndex, const std::string &strVal, Pipeline ppLine = nullptr);
-int Ltrim(const std::string &strKey, long nStart, long nStop, Pipeline ppLine = nullptr);
-int Rpop(const std::string &strKey, std::string *pstrVal, Pipeline ppLine = nullptr);
-int Rpush(const std::string &strKey, const std::string &strVal, long *pnVal = nullptr, Pipeline ppLine = nullptr);
-int Rpush(const std::string &strKey, const std::vector<std::string> &vecVal, Pipeline ppLine = nullptr);
-int Rpushx(const std::string &strKey, const std::string &strVal, long *pnVal = nullptr, Pipeline ppLine = nullptr);
-
-/* interfaces for set */
-int Sadd(const std::string &strKey, const std::string &strVal, long *pnVal = nullptr, Pipeline = nullptr);
-int Scard(const std::string &strKey, long *pnVal, Pipeline = nullptr);
-//int Sdiff(const std::vector<std::string> &vecKey, std::vector<std::string> *pvecVal, Pipeline ppLine = nullptr);
-//int Sinter(const std::vector<std::string> &vecKey, std::vector<std::string> *pvecVal, Pipeline ppLine = nullptr);
-int Sismember(const std::string &strKey, const std::string &strVal, long *pnVal, Pipeline ppLine = nullptr);
-int Smembers(const std::string &strKey, std::vector<std::string> *pvecVal, Pipeline ppLine = nullptr);
-int Spop(const std::string &strKey, std::string *pstrVal, Pipeline ppLine = nullptr);
-int Srandmember(const std::string &strKey, long nCount, std::vector<std::string> *pvecVal, Pipeline ppLine = nullptr);
-int Srem(const std::string &strKey, const std::string &strVal, long *pnVal = nullptr, Pipeline ppLine = nullptr);
-int Srem(const std::string &strKey, const std::vector<std::string> &vecVal, long *pnVal = nullptr, Pipeline ppLine = nullptr);
-//int Sunion(const std::vector<std::string> &vecKey, std::vector<std::string> *pvecVal, Pipeline ppLine = nullptr);
-
-/* interfaces for hash */
-int Hdel(const std::string &strKey, const std::string &strField, long *pnVal = nullptr, Pipeline ppLine = nullptr);
-int Hexists(const std::string &strKey, const std::string &strField, long *pnVal, Pipeline ppLine = nullptr);
-int Hget(const std::string &strKey, const std::string &strField, std::string *pstrVal, Pipeline ppLine = nullptr);
-int Hgetall(const std::string &strKey, std::map<std::string, std::string> *pmapFv, Pipeline ppLine = nullptr);
-int Hincrby(const std::string &strKey, const std::string &strField, long nIncr, long *pnVal, Pipeline ppLine = nullptr);
-int Hincrbyfloat(const std::string &strKey, const std::string &strField, double dIncr, double *pdVal, Pipeline ppLine = nullptr);
-int Hkeys(const std::string &strKey, std::vector<std::string> *pvecVal, Pipeline ppLine = nullptr);
-int Hlen(const std::string &strKey, long *pnVal, Pipeline ppLine = nullptr);
-int Hmget(const std::string &strKey, const std::vector<std::string> &vecField, std::vector<std::string> *pvecVal, Pipeline ppLine = nullptr);
-int Hmget(const std::string &strKey, const std::vector<std::string> &vecField, std::map<std::string, std::string> *pmapVal);
-int Hmget(const std::string &strKey, const std::set<std::string> &setField, std::map<std::string, std::string> *pmapVal);
-int Hmset(const std::string &strKey, const std::vector<std::string> &vecField, const std::vector<std::string> &vecVal, Pipeline ppLine = nullptr);
-int Hmset(const std::string &strKey, const std::map<std::string, std::string> &mapFv, Pipeline ppLine = nullptr);
-//int Hscan(const std::string &strKey, long *pnCursor, const std::string &strMatch, long nCount, std::vector<std::string> *pvecVal);
-int Hset(const std::string &strKey, const std::string &strField, const std::string &strVal, Pipeline ppLine = nullptr);
-int Hsetnx(const std::string &strKey, const std::string &strField, const std::string &strVal, Pipeline ppLine = nullptr);
-int Hvals(const std::string &strKey, std::vector<std::string> *pvecVal, Pipeline ppLine = nullptr);
-
-/* interfaces for sorted set */
-int Zadd(const std::string &strKey, double dScore, const std::string &strElem, long *pnVal = nullptr, Pipeline = nullptr);
-int Zcard(const std::string &strKey, long *pnVal, Pipeline = nullptr);
-int Zcount(const std::string &strKey, double dMin, double dMax, long *pnVal, Pipeline ppLine = nullptr);
-int Zincrby(const std::string &strKey, double dIncr, const std::string &strElem, double *pdVal, Pipeline ppLine = nullptr);
-int Zlexcount(const std::string &strKey, const std::string &strMin, const std::string &strMax, long *pnVal, Pipeline ppLine = nullptr);
-int Zrange(const std::string &strKey, long nStart, long nStop, std::vector<std::string> *pvecVal, Pipeline ppLine = nullptr);
-int Zrangewithscore(const std::string &strKey, long nStart, long nStop, std::map<std::string, std::string> *pmapVal, Pipeline ppLine = nullptr);
-int Zrangebylex(const std::string &strKey, const std::string &strMin, const std::string &strMax, std::vector<std::string> *pvecVal, Pipeline ppLine = nullptr);
-int Zrangebyscore(const std::string &strKey, double dMin, double dMax, std::vector<std::string> *pvecVal, Pipeline ppLine = nullptr);
-int Zrangebyscore(const std::string &strKey, double dMin, double dMax, std::map<std::string, double> *pmapVal, Pipeline ppLine = nullptr);
-int Zrank(const std::string &strKey, const std::string &strElem, long *pnVal, Pipeline ppLine = nullptr);
-int Zrem(const std::string &strKey, const std::string &strElem, long *pnVal = nullptr, Pipeline ppLine = nullptr);
-int Zrem(const std::string &strKey, const std::vector<std::string> &vecElem, long *pnVal = nullptr, Pipeline ppLine = nullptr);
-int Zremrangebylex(const std::string &strKey, const std::string &strMin, const std::string &strMax, long *pnVal = nullptr, Pipeline ppLine = nullptr);
-int Zremrangebyrank(const std::string &strKey, long nStart, long nStop, long *pnVal = nullptr, Pipeline ppLine = nullptr);
-int Zremrangebyscore(const std::string &strKey, double dMin, double dMax, long *pnVal = nullptr, Pipeline ppLine = nullptr);
-int Zrevrange(const std::string &strKey, long nStart, long nStop, std::vector<std::string> *pvecVal, Pipeline ppLine = nullptr);
-int Zrevrangebyscore(const std::string &strKey, double dMax, double dMin, std::vector<std::string> *pvecVal, Pipeline ppLine = nullptr);
-int Zrevrangebyscore(const std::string &strKey, double dMax, double dMin, std::map<std::string, double> *pmapVal, Pipeline ppLine = nullptr);
-int Zrevrank(const std::string &strKey, const std::string &strElem, long *pnVal, Pipeline ppLine = nullptr);
-int Zscore(const std::string &strKey, const std::string &strElem, double *pdVal, Pipeline ppLine = nullptr);
-
-/* interfaces for system */
-int Time(struct timeval *ptmVal, Pipeline ppLine = nullptr);
-```
+/* interfaces for generic */  
+int [Del](http://www.redis.cn/commands/del.html)(const std::string &strKey, long *pnVal = nullptr, Pipeline ppLine = nullptr)  
+int [Dump](http://www.redis.cn/commands/dump.html)(const std::string &strKey, std::string *pstrVal, Pipeline ppLine = nullptr)  
+int [Exists](http://www.redis.cn/commands/exists.html)(const std::string &strKey, long *pnVal, Pipeline ppLine = nullptr)  
+int [Expire](http://www.redis.cn/commands/expire.html)(const std::string &strKey, long nSec, long *pnVal = nullptr, Pipeline ppLine = nullptr)  
+int [Expireat](http://www.redis.cn/commands/expireat.html)(const std::string &strKey, long nTime, long *pnVal = nullptr, Pipeline ppLine = nullptr)  
+int [Keys](http://www.redis.cn/commands/keys.html)(const std::string &strPattern, std::vector<std::string> *pvecVal)  
+int [Persist](http://www.redis.cn/commands/persist.html)(const std::string &strKey, long *pnVal = nullptr, Pipeline ppLine = nullptr)  
+int [Pexpire](http://www.redis.cn/commands/pexpire.html)(const std::string &strKey, long nMilliSec, long *pnVal = nullptr, Pipeline ppLine = nullptr)  
+int [Pexpireat](http://www.redis.cn/commands/pexpireat.html)(const std::string &strKey, long nMilliTime, long *pnVal = nullptr, Pipeline ppLine = nullptr)  
+int [Pttl](http://www.redis.cn/commands/pttl.html)(const std::string &strKey, long *pnVal, Pipeline ppLine = nullptr)  
+int [Randomkey](http://www.redis.cn/commands/randomkey.html)(std::string *pstrVal, Pipeline ppLine = nullptr)  
+int [Rename](http://www.redis.cn/commands/rename.html)(const std::string &strKey, const std::string &strNewKey)  
+int [Renamenx](http://www.redis.cn/commands/renamenx.html)(const std::string &strKey, const std::string &strNewKey)  
+int [Restore](http://www.redis.cn/commands/restore.html)(const std::string &strKey, long nTtl, const std::string &strVal, Pipeline ppLine = nullptr)  
+int [Scan](http://www.redis.cn/commands/scan.html)(long *pnCursor, const std::string &strPattern, long nCount, std::vector<std::string> *pvecVal)  
+int [Ttl](http://www.redis.cn/commands/ttl.html)(const std::string &strKey, long *pnVal, Pipeline ppLine = nullptr)  
+int [Type](http://www.redis.cn/commands/type.html)(const std::string &strKey, std::string *pstrVal, Pipeline ppLine = nullptr)  
+  
+/* interfaces for string */  
+int [Append](http://www.redis.cn/commands/append.html)(const std::string &strKey, const std::string &strVal, long *pnVal = nullptr, Pipeline ppLine = nullptr)  
+int [Bitcount](http://www.redis.cn/commands/bitcount.html)(const std::string &strKey, long *pnVal, Pipeline ppLine = nullptr)  
+int [Bitcount](http://www.redis.cn/commands/bitcount.html)(const std::string &strKey, long nStart, long nEnd, long *pnVal, Pipeline ppLine = nullptr)  
+int [Bitop](http://www.redis.cn/commands/bitop.html)(const std::string &strDestKey, const std::string &strOp, const std::vector<std::string> &vecKey, long *pnVal = nullptr, Pipeline ppLine = nullptr)  
+int [Bitpos](http://www.redis.cn/commands/bitpos.html)(const std::string &strKey, long nBitVal, long *pnVal, Pipeline ppLine = nullptr)  
+int [Bitpos](http://www.redis.cn/commands/bitpos.html)(const std::string &strKey, long nBitVal, long nStart, long nEnd, long *pnVal, Pipeline ppLine = nullptr)  
+int [Decr](http://www.redis.cn/commands/decr.html)(const std::string &strKey, long *pnVal = nullptr, Pipeline ppLine = nullptr)  
+int [Decrby](http://www.redis.cn/commands/decrby.html)(const std::string &strKey, long nDecr, long *pnVal = nullptr, Pipeline ppLine = nullptr)  
+int [Get](http://www.redis.cn/commands/get.html)(const std::string &strKey, std::string *pstrVal, Pipeline ppLine = nullptr)  
+int [Getbit](http://www.redis.cn/commands/getbit.html)(const std::string &strKey, long nOffset, long *pnVal, Pipeline ppLine = nullptr)  
+int [Getrange](http://www.redis.cn/commands/getrange.html)(const std::string &strKey, long nStart, long nEnd, std::string *pstrVal, Pipeline ppLine = nullptr)  
+int [Getset](http://www.redis.cn/commands/getset.html)(const std::string &strKey, std::string *pstrVal, Pipeline ppLine = nullptr)  
+int [Incr](http://www.redis.cn/commands/incr.html)(const std::string &strKey, long *pnVal, Pipeline ppLine = nullptr)  
+int [Incrby](http://www.redis.cn/commands/incrby.html)(const std::string &strKey, long nIncr, long *pnVal, Pipeline ppLine = nullptr)  
+int [Incrbyfloat](http://www.redis.cn/commands/incrbyfloat.html)(const std::string &strKey, double dIncr, double *pdVal, Pipeline ppLine = nullptr)  
+int [Mget](http://www.redis.cn/commands/mget.html)(const std::vector<std::string> &vecKey, std::vector<std::string> *pvecVal)  
+int [Mset](http://www.redis.cn/commands/mset.html)(const std::vector<std::string> &vecKey, const std::vector<std::string> &vecVal)  
+int [Psetex](http://www.redis.cn/commands/psetex.html)(const std::string &strKey, long nMilliSec, const std::string &strVal, Pipeline ppLine = nullptr)  
+int [Set](http://www.redis.cn/commands/set.html)(const std::string &strKey, const std::string &strVal, Pipeline ppLine = nullptr)  
+int [Setbit](http://www.redis.cn/commands/setbit.html)(const std::string &strKey, long nOffset, bool bVal, Pipeline ppLine = nullptr)  
+int [Setex](http://www.redis.cn/commands/setex.html)(const std::string &strKey, long nSec, const std::string &strVal, Pipeline ppLine = nullptr)  
+int [Setnx](http://www.redis.cn/commands/setnx.html)(const std::string &strKey, const std::string &strVal, Pipeline ppLine = nullptr)  
+int [Setrange](http://www.redis.cn/commands/setrange.html)(const std::string &strKey, long nOffset, const std::string &strVal, long *pnVal = nullptr, Pipeline ppLine = nullptr)  
+int [Strlen](http://www.redis.cn/commands/strlen.html)(const std::string &strKey, long *pnVal, Pipeline ppLine = nullptr)  
+  
+/* interfaces for list */  
+int [Blpop](http://www.redis.cn/commands/blpop.html)(const std::string &strKey, long nTimeout, std::vector<std::string> *pvecVal)  
+int [Blpop](http://www.redis.cn/commands/blpop.html)(const std::vector<std::string> &vecKey, long nTimeout, std::vector<std::string> *pvecVal)  
+int [Brpop](http://www.redis.cn/commands/brpop.html)(const std::string &strKey, long nTimeout, std::vector<std::string> *pvecVal)  
+int [Brpop](http://www.redis.cn/commands/brpop.html)(const std::vector<std::string> &vecKey, long nTimeout, std::vector<std::string> *pvecVal)  
+int [Lindex](http://www.redis.cn/commands/lindex.html)(const std::string &strKey, long nIndex, std::string *pstrVal, Pipeline ppLine = nullptr)  
+int [Linsert](http://www.redis.cn/commands/linsert.html)(const std::string &strKey, const std::string &strPos, const std::string &strPivot, const std::string &strVal, long *pnVal, Pipeline ppLine = nullptr)  
+int [Llen](http://www.redis.cn/commands/llen.html)(const std::string &strKey, long *pnVal, Pipeline ppLine = nullptr)  
+int [Lpop](http://www.redis.cn/commands/lpop.html)(const std::string &strKey, std::string *pstrVal, Pipeline ppLine = nullptr)  
+int [Lpush](http://www.redis.cn/commands/lpush.html)(const std::string &strKey, const std::string &strVal, long *pnVal = nullptr, Pipeline ppLine = nullptr)  
+int [Lpush](http://www.redis.cn/commands/lpush.html)(const std::string &strKey, const std::vector<std::string> &vecVal, Pipeline ppLine = nullptr)  
+int [Lpushx](http://www.redis.cn/commands/lpushx.html)(const std::string &strKey, const std::string &strVal, long *pnVal = nullptr, Pipeline ppLine = nullptr)  
+int [Lrange](http://www.redis.cn/commands/lrange.html)(const std::string &strKey, long nStart, long nStop, std::vector<std::string> *pvecVal, Pipeline ppLine = nullptr)  
+int [Lrem](http://www.redis.cn/commands/lrem.html)(const std::string &strKey, long nCount, const std::string &strVal, long *pnVal = nullptr, Pipeline ppLine = nullptr)  
+int [Lset](http://www.redis.cn/commands/lset.html)(const std::string &strKey, long nIndex, const std::string &strVal, Pipeline ppLine = nullptr)  
+int [Ltrim](http://www.redis.cn/commands/ltrim.html)(const std::string &strKey, long nStart, long nStop, Pipeline ppLine = nullptr)  
+int [Rpop](http://www.redis.cn/commands/rpop.html)(const std::string &strKey, std::string *pstrVal, Pipeline ppLine = nullptr)  
+int [Rpush](http://www.redis.cn/commands/rpush.html)(const std::string &strKey, const std::string &strVal, long *pnVal = nullptr, Pipeline ppLine = nullptr)  
+int [Rpush](http://www.redis.cn/commands/rpush.html)(const std::string &strKey, const std::vector<std::string> &vecVal, Pipeline ppLine = nullptr)  
+int [Rpushx](http://www.redis.cn/commands/rpushx.html)(const std::string &strKey, const std::string &strVal, long *pnVal = nullptr, Pipeline ppLine = nullptr)  
+  
+/* interfaces for set */  
+int [Sadd](http://www.redis.cn/commands/sadd.html)(const std::string &strKey, const std::string &strVal, long *pnVal = nullptr, Pipeline = nullptr)  
+int [Scard](http://www.redis.cn/commands/scard.html)(const std::string &strKey, long *pnVal, Pipeline = nullptr)  
+//int Sdiff(const std::vector<std::string> &vecKey, std::vector<std::string> *pvecVal, Pipeline ppLine = nullptr);  
+//int Sinter(const std::vector<std::string> &vecKey, std::vector<std::string> *pvecVal, Pipeline ppLine = nullptr);  
+int [Sismember](http://www.redis.cn/commands/sismember.html)(const std::string &strKey, const std::string &strVal, long *pnVal, Pipeline ppLine = nullptr)  
+int [Smembers](http://www.redis.cn/commands/smembers.html)(const std::string &strKey, std::vector<std::string> *pvecVal, Pipeline ppLine = nullptr)  
+int [Spop](http://www.redis.cn/commands/spop.html)(const std::string &strKey, std::string *pstrVal, Pipeline ppLine = nullptr)  
+int [Srandmember](http://www.redis.cn/commands/srandmember.html)(const std::string &strKey, long nCount, std::vector<std::string> *pvecVal, Pipeline ppLine = nullptr)  
+int [Srem](http://www.redis.cn/commands/srem.html)(const std::string &strKey, const std::string &strVal, long *pnVal = nullptr, Pipeline ppLine = nullptr)  
+int [Srem](http://www.redis.cn/commands/srem.html)(const std::string &strKey, const std::vector<std::string> &vecVal, long *pnVal = nullptr, Pipeline ppLine = nullptr)  
+//int Sunion(const std::vector<std::string> &vecKey, std::vector<std::string> *pvecVal, Pipeline ppLine = nullptr);  
+  
+/* interfaces for hash */  
+int [Hdel](http://www.redis.cn/commands/hdel.html)(const std::string &strKey, const std::string &strField, long *pnVal = nullptr, Pipeline ppLine = nullptr)  
+int [Hexists](http://www.redis.cn/commands/hexists.html)(const std::string &strKey, const std::string &strField, long *pnVal, Pipeline ppLine = nullptr)  
+int [Hget](http://www.redis.cn/commands/hget.html)(const std::string &strKey, const std::string &strField, std::string *pstrVal, Pipeline ppLine = nullptr)  
+int [Hgetall](http://www.redis.cn/commands/hgetall.html)(const std::string &strKey, std::map<std::string, std::string> *pmapFv, Pipeline ppLine = nullptr)  
+int [Hincrby](http://www.redis.cn/commands/hincrby.html)(const std::string &strKey, const std::string &strField, long nIncr, long *pnVal, Pipeline ppLine = nullptr)  
+int [Hincrbyfloat](http://www.redis.cn/commands/hincrbyfloat.html)(const std::string &strKey, const std::string &strField, double dIncr, double *pdVal, Pipeline ppLine = nullptr)  
+int [Hkeys](http://www.redis.cn/commands/hkeys.html)(const std::string &strKey, std::vector<std::string> *pvecVal, Pipeline ppLine = nullptr)  
+int [Hlen](http://www.redis.cn/commands/hlen.html)(const std::string &strKey, long *pnVal, Pipeline ppLine = nullptr)  
+int [Hmget](http://www.redis.cn/commands/hmget.html)(const std::string &strKey, const std::vector<std::string> &vecField, std::vector<std::string> *pvecVal, Pipeline ppLine = nullptr)  
+int [Hmget](http://www.redis.cn/commands/hmget.html)(const std::string &strKey, const std::vector<std::string> &vecField, std::map<std::string, std::string> *pmapVal)  
+int [Hmget](http://www.redis.cn/commands/hmget.html)(const std::string &strKey, const std::set<std::string> &setField, std::map<std::string, std::string> *pmapVal)  
+int [Hmset](http://www.redis.cn/commands/hmset.html)(const std::string &strKey, const std::vector<std::string> &vecField, const std::vector<std::string> &vecVal, Pipeline ppLine = nullptr)  
+int [Hmset](http://www.redis.cn/commands/hmset.html)(const std::string &strKey, const std::map<std::string, std::string> &mapFv, Pipeline ppLine = nullptr)  
+//int Hscan(const std::string &strKey, long *pnCursor, const std::string &strMatch, long nCount, std::vector<std::string> *pvecVal);  
+int [Hset](http://www.redis.cn/commands/hset.html)(const std::string &strKey, const std::string &strField, const std::string &strVal, Pipeline ppLine = nullptr)  
+int [Hsetnx](http://www.redis.cn/commands/hsetnx.html)(const std::string &strKey, const std::string &strField, const std::string &strVal, Pipeline ppLine = nullptr)  
+int [Hvals](http://www.redis.cn/commands/hvals.html)(const std::string &strKey, std::vector<std::string> *pvecVal, Pipeline ppLine = nullptr)  
+  
+/* interfaces for sorted set */  
+int [Zadd](http://www.redis.cn/commands/zadd.html)(const std::string &strKey, double dScore, const std::string &strElem, long *pnVal = nullptr, Pipeline = nullptr)  
+int [Zcard](http://www.redis.cn/commands/zcard.html)(const std::string &strKey, long *pnVal, Pipeline = nullptr)  
+int [Zcount](http://www.redis.cn/commands/zcount.html)(const std::string &strKey, double dMin, double dMax, long *pnVal, Pipeline ppLine = nullptr)  
+int [Zincrby](http://www.redis.cn/commands/zincrby.html)(const std::string &strKey, double dIncr, const std::string &strElem, double *pdVal, Pipeline ppLine = nullptr)  
+int [Zlexcount](http://www.redis.cn/commands/zlexcount.html)(const std::string &strKey, const std::string &strMin, const std::string &strMax, long *pnVal, Pipeline ppLine = nullptr)  
+int [Zrange](http://www.redis.cn/commands/zrange.html)(const std::string &strKey, long nStart, long nStop, std::vector<std::string> *pvecVal, Pipeline ppLine = nullptr)  
+int [Zrangewithscore](http://www.redis.cn/commands/zrangewithscore.html)(const std::string &strKey, long nStart, long nStop, std::map<std::string, std::string> *pmapVal, Pipeline ppLine = nullptr)  
+int [Zrangebylex](http://www.redis.cn/commands/zrangebylex.html)(const std::string &strKey, const std::string &strMin, const std::string &strMax, std::vector<std::string> *pvecVal, Pipeline ppLine = nullptr)  
+int [Zrangebyscore](http://www.redis.cn/commands/zrangebyscore.html)(const std::string &strKey, double dMin, double dMax, std::vector<std::string> *pvecVal, Pipeline ppLine = nullptr)  
+int [Zrangebyscore](http://www.redis.cn/commands/zrangebyscore.html)(const std::string &strKey, double dMin, double dMax, std::map<std::string, double> *pmapVal, Pipeline ppLine = nullptr)  
+int [Zrank](http://www.redis.cn/commands/zrank.html)(const std::string &strKey, const std::string &strElem, long *pnVal, Pipeline ppLine = nullptr)  
+int [Zrem](http://www.redis.cn/commands/zrem.html)(const std::string &strKey, const std::string &strElem, long *pnVal = nullptr, Pipeline ppLine = nullptr)  
+int [Zrem](http://www.redis.cn/commands/zrem.html)(const std::string &strKey, const std::vector<std::string> &vecElem, long *pnVal = nullptr, Pipeline ppLine = nullptr)  
+int [Zremrangebylex](http://www.redis.cn/commands/zremrangebylex.html)(const std::string &strKey, const std::string &strMin, const std::string &strMax, long *pnVal = nullptr, Pipeline ppLine = nullptr)  
+int [Zremrangebyrank](http://www.redis.cn/commands/zremrangebyrank.html)(const std::string &strKey, long nStart, long nStop, long *pnVal = nullptr, Pipeline ppLine = nullptr)  
+int [Zremrangebyscore](http://www.redis.cn/commands/zremrangebyscore.html)(const std::string &strKey, double dMin, double dMax, long *pnVal = nullptr, Pipeline ppLine = nullptr)  
+int [Zrevrange](http://www.redis.cn/commands/zrevrange.html)(const std::string &strKey, long nStart, long nStop, std::vector<std::string> *pvecVal, Pipeline ppLine = nullptr)  
+int [Zrevrangebyscore](http://www.redis.cn/commands/zrevrangebyscore.html)(const std::string &strKey, double dMax, double dMin, std::vector<std::string> *pvecVal, Pipeline ppLine = nullptr)  
+int [Zrevrangebyscore](http://www.redis.cn/commands/zrevrangebyscore.html)(const std::string &strKey, double dMax, double dMin, std::map<std::string, double> *pmapVal, Pipeline ppLine = nullptr)  
+int [Zrevrank](http://www.redis.cn/commands/zrevrank.html)(const std::string &strKey, const std::string &strElem, long *pnVal, Pipeline ppLine = nullptr)  
+int [Zscore](http://www.redis.cn/commands/zscore.html)(const std::string &strKey, const std::string &strElem, double *pdVal, Pipeline ppLine = nullptr)  
+  
+/* interfaces for system */  
+int [Time](http://www.redis.cn/commands/time.html)(struct timeval *ptmVal, Pipeline ppLine = nullptr)  
 
 ## API 使用详细说明
 先说一下调用接口的一些返回值，在后面文档均用RequestRet描述。   
