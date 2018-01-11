@@ -189,20 +189,18 @@ int [Time](http://www.redis.cn/commands/time.html)(struct timeval *ptmVal, Pipel
 先说一下调用接口的一些返回值，在后面文档均用RequestRet描述。   
 
 | Macro definition | Value | Description     |
-| :---------------- | :----- | :--------------- |
-| RC_RESULT_EOF    | 5     | info            |
-| RC_NO_EFFECT     | 4     | info            |
-| RC_OBJ_NOT_EXIST | 3     | info            |
-| RC_OBJ_EXIST     | 2     | info            |
-| RC_PART_SUCCESS  | 1     | info            |
+| :--------------- | :---- | :-------------- |
+| RC_RESULT_EOF    | 5     | 无结果再可取     |
+| RC_OBJ_NOT_EXIST | 3     | 对象不存在       |
+| RC_OBJ_EXIST     | 2     | 对象存在         |
+| RC_PART_SUCCESS  | 1     | 部分调用成功     |
 | RC_SUCCESS       | 0     | 调用成功        |
-| RC_PARAM_ERR     | -1    | info            |
-| RC_REPLY_ERR     | -2    | info            |
-| RC_RQST_ERR      | -3    | info            |
-| RC_NO_RESOURCE   | -4    | info            |
-| RC_PIPELINE_ERR  | -5    | info            |
+| RC_PARAM_ERR     | -1    | 参数错误        |
+| RC_REPLY_ERR     | -2    | 调用返回类型错误 |
+| RC_RQST_ERR      | -3    | 重连失败        |
+| RC_NO_RESOURCE   | -4    | 无连接          |
+| RC_PIPELINE_ERR  | -5    | ppLine 传参错误 |
 | RC_NOT_SUPPORT   | -6    | Redis服务不支持 |
-| RC_SLOT_CHANGED  | -100  | info            |
 
 ### static CRedisClient* Instance()
 获取单例指针。
