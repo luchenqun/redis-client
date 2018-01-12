@@ -20,14 +20,15 @@ bool CTestPipeline::StartTest(const std::string &strHost)
         std::string strVal = "lcq";
         std::string strNewVal = "luchenqun";
         long pnVal = 0;
-        long nSec = 600;
+        long nSec = 60;
         m_redis.Set(strKey, strVal, pipeline);
         m_redis.Get(strKey, &strVal, pipeline);
         m_redis.Setex(strKey, nSec, strNewVal, pipeline);
         m_redis.Strlen(strKey, &pnVal, pipeline);
         m_redis.Get(strKey, &strVal, pipeline);
 
-        if(m_redis.FlushPipeline(pipeline) == RC_SUCCESS)
+        int ret = m_redis.FlushPipeline(pipeline);
+        if(ret == RC_SUCCESS)
         {
             redisReply *pReply;
             while (m_redis.FetchReply(pipeline, &pReply) == RC_SUCCESS) {
@@ -39,6 +40,10 @@ bool CTestPipeline::StartTest(const std::string &strHost)
             }
             m_redis.FreePipeline(pipeline);
             bSuccess = true;
+        }
+        else
+        {
+            std::cout << "m_redis.FlushPipeline(pipeline) " << ret;
         }
     }
     std::cout << "CTestPipeline Test " << (bSuccess ? "success" : "fail") << std::endl;

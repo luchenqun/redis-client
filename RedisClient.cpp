@@ -1358,10 +1358,10 @@ int CRedisClient::Lpush(const std::string &strKey, const std::string &strVal, lo
     return ExecuteImpl("lpush", strKey, strVal, HASH_SLOT(strKey), ppLine, BIND_INT(pnVal));
 }
 
-//int CRedisClient::Lpush(const std::string &strKey, const std::vector<std::string> &vecVal, Pipeline ppLine)
-//{
-//    return ExecuteImpl("lpush", BIND_INT(nullptr), strKey, vecVal, HASH_SLOT(strKey), ppLine);
-//}
+int CRedisClient::Lpush(const std::string &strKey, const std::vector<std::string> &vecVal, long *pnVal, Pipeline ppLine)
+{
+    return (vecVal.size() > 0) ? ExecuteImpl("lpush", strKey, vecVal, HASH_SLOT(strKey), ppLine, BIND_INT(pnVal)) : RC_PARAM_ERR;
+}
 
 int CRedisClient::Lpushx(const std::string &strKey, const std::string &strVal, long *pnVal, Pipeline ppLine)
 {
@@ -1397,11 +1397,11 @@ int CRedisClient::Rpush(const std::string &strKey, const std::string &strVal, lo
 {
     return ExecuteImpl("rpush", strKey, strVal, HASH_SLOT(strKey), ppLine, BIND_INT(pnVal));
 }
-//
-//int CRedisClient::Rpush(const std::string &strKey, const std::vector<std::string> &vecVal, Pipeline ppLine)
-//{
-//    return ExecuteImpl("rpush", BIND_INT(nullptr), strKey, vecVal, HASH_SLOT(strKey), ppLine);
-//}
+
+int CRedisClient::Rpush(const std::string &strKey, const std::vector<std::string> &vecVal, long *pnVal, Pipeline ppLine)
+{
+    return (vecVal.size() > 0) ? ExecuteImpl("rpush", strKey, vecVal, HASH_SLOT(strKey), ppLine, BIND_INT(pnVal)) : RC_PARAM_ERR;
+}
 
 int CRedisClient::Rpushx(const std::string &strKey, const std::string &strVal, long *pnVal, Pipeline ppLine)
 {
@@ -1715,20 +1715,6 @@ int CRedisClient::Zscore(const std::string &strKey, const std::string &strElem, 
 int CRedisClient::Time(timeval *ptmVal, Pipeline ppLine)
 {
     return ExecuteImpl("time", -1, ppLine, BIND_TIME(ptmVal));
-}
-
-int CRedisClient::ExecuteImpl(const std::string &strCmd, int nSlot, Pipeline ppLine, TFuncFetch funcFetch, TFuncConvert funcConv)
-{
-    CRedisCommand *pRedisCmd = new CRedisCommand(strCmd, !ppLine);
-    pRedisCmd->SetArgs();
-    pRedisCmd->SetSlot(nSlot);
-    pRedisCmd->SetConvFunc(funcConv);
-    int nRet = Execute(pRedisCmd, ppLine);
-    if (nRet == RC_SUCCESS && !ppLine)
-        nRet = pRedisCmd->FetchResult(funcFetch);
-    if (!ppLine)
-        delete pRedisCmd;
-    return nRet;
 }
 
 Pipeline CRedisClient::CreatePipeline()

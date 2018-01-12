@@ -284,7 +284,7 @@ public:
     int Llen(const std::string &strKey, long *pnVal, Pipeline ppLine = nullptr);
     int Lpop(const std::string &strKey, std::string *pstrVal, Pipeline ppLine = nullptr);
     int Lpush(const std::string &strKey, const std::string &strVal, long *pnVal = nullptr, Pipeline ppLine = nullptr);
-    int Lpush(const std::string &strKey, const std::vector<std::string> &vecVal, Pipeline ppLine = nullptr);
+    int Lpush(const std::string &strKey, const std::vector<std::string> &vecVal, long *pnVal = nullptr, Pipeline ppLine = nullptr);
     int Lpushx(const std::string &strKey, const std::string &strVal, long *pnVal = nullptr, Pipeline ppLine = nullptr);
     int Lrange(const std::string &strKey, long nStart, long nStop, std::vector<std::string> *pvecVal, Pipeline ppLine = nullptr);
     int Lrem(const std::string &strKey, long nCount, const std::string &strVal, long *pnVal = nullptr, Pipeline ppLine = nullptr);
@@ -292,7 +292,7 @@ public:
     int Ltrim(const std::string &strKey, long nStart, long nStop, Pipeline ppLine = nullptr);
     int Rpop(const std::string &strKey, std::string *pstrVal, Pipeline ppLine = nullptr);
     int Rpush(const std::string &strKey, const std::string &strVal, long *pnVal = nullptr, Pipeline ppLine = nullptr);
-    int Rpush(const std::string &strKey, const std::vector<std::string> &vecVal, Pipeline ppLine = nullptr);
+    int Rpush(const std::string &strKey, const std::vector<std::string> &vecVal, long *pnVal = nullptr, Pipeline ppLine = nullptr);
     int Rpushx(const std::string &strKey, const std::string &strVal, long *pnVal = nullptr, Pipeline ppLine = nullptr);
 
     /* interfaces for set */
@@ -373,7 +373,19 @@ private:
     int SimpleExecute(CRedisCommand *pRedisCmd);
 
     int ExecuteImpl(const std::string &strCmd, int nSlot, Pipeline ppLine,
-                   TFuncFetch funcFetch, TFuncConvert funcConv = FUNC_DEF_CONV);
+                   TFuncFetch funcFetch, TFuncConvert funcConv = FUNC_DEF_CONV)
+    {
+        CRedisCommand *pRedisCmd = new CRedisCommand(strCmd, !ppLine);
+        pRedisCmd->SetArgs();
+        pRedisCmd->SetSlot(nSlot);
+        pRedisCmd->SetConvFunc(funcConv);
+        int nRet = Execute(pRedisCmd, ppLine);
+        if (nRet == RC_SUCCESS && !ppLine)
+            nRet = pRedisCmd->FetchResult(funcFetch);
+        if (!ppLine)
+            delete pRedisCmd;
+        return nRet;
+    }
 
     template <typename P>
     int ExecuteImpl(const std::string &strCmd, const P &tArg, int nSlot, Pipeline ppLine,
