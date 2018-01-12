@@ -46,7 +46,7 @@ int main(int argc, char **argv) {
 更多测试用例，请看[test](test/)目录。
 
 ## 待办事项
-* 实现`Scan`与`Hscan`接口，也就意味着目前这两个接口不支持。
+* 实现`Scan`、`Hscan`、`Srandmember`接口，也就意味着目前这两个接口不支持。
 
 ## 接口一览
 先说一下调用接口的一些返回值，在后面文档均用RequestRet描述。   
