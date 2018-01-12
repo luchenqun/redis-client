@@ -1577,6 +1577,16 @@ int CRedisClient::Hmset(const std::string &strKey, const std::map<std::string, s
     return ExecuteImpl("hmset", strKey, mapFv, HASH_SLOT(strKey), ppLine, BIND_STR(nullptr), StuResConv());
 }
 
+int Hscan(const std::string &strKey, long *pnCursor, const std::string &strMatch, long nCount, std::vector<std::string> *pvecVal)
+{
+    UNUSED(strKey);
+    UNUSED(pnCursor);
+    UNUSED(strMatch);
+    UNUSED(nCount);
+    UNUSED(pvecVal);
+    return RC_NOT_SUPPORT;
+}
+
 int CRedisClient::Hset(const std::string &strKey, const std::string &strField, const std::string &strVal, Pipeline ppLine)
 {
     return ExecuteImpl("hset", strKey, strField, strVal, HASH_SLOT(strKey), ppLine, BIND_INT(nullptr));

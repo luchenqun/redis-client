@@ -130,15 +130,15 @@ int [Rpushx](http://www.redis.cn/commands/rpushx.html)(const std::string &strKey
 /* interfaces for set */  
 int [Sadd](http://www.redis.cn/commands/sadd.html)(const std::string &strKey, const std::string &strVal, long *pnVal = nullptr, Pipeline = nullptr)  
 int [Scard](http://www.redis.cn/commands/scard.html)(const std::string &strKey, long *pnVal, Pipeline = nullptr)  
-//int Sdiff(const std::vector\<std::string\> &vecKey, std::vector\<std::string\> *pvecVal, Pipeline ppLine = nullptr);  
-//int Sinter(const std::vector\<std::string\> &vecKey, std::vector\<std::string\> *pvecVal, Pipeline ppLine = nullptr);  
+int [Sdiff](http://www.redis.cn/commands/sdiff.html)(const std::vector\<std::string\> &vecKey, std::vector\<std::string\> *pvecVal, Pipeline ppLine = nullptr);  
+int [Sinter](http://www.redis.cn/commands/sinter.html)(const std::vector\<std::string\> &vecKey, std::vector\<std::string\> *pvecVal, Pipeline ppLine = nullptr);  
 int [Sismember](http://www.redis.cn/commands/sismember.html)(const std::string &strKey, const std::string &strVal, long *pnVal, Pipeline ppLine = nullptr)  
 int [Smembers](http://www.redis.cn/commands/smembers.html)(const std::string &strKey, std::vector\<std::string\> *pvecVal, Pipeline ppLine = nullptr)  
 int [Spop](http://www.redis.cn/commands/spop.html)(const std::string &strKey, std::string *pstrVal, Pipeline ppLine = nullptr)  
 int [Srandmember](http://www.redis.cn/commands/srandmember.html)(const std::string &strKey, long nCount, std::vector\<std::string\> *pvecVal, Pipeline ppLine = nullptr)  
 int [Srem](http://www.redis.cn/commands/srem.html)(const std::string &strKey, const std::string &strVal, long *pnVal = nullptr, Pipeline ppLine = nullptr)  
 int [Srem](http://www.redis.cn/commands/srem.html)(const std::string &strKey, const std::vector\<std::string\> &vecVal, long *pnVal = nullptr, Pipeline ppLine = nullptr)  
-//int Sunion(const std::vector\<std::string\> &vecKey, std::vector\<std::string\> *pvecVal, Pipeline ppLine = nullptr);  
+int [Sunion](http://www.redis.cn/commands/sunion.html)(const std::vector\<std::string\> &vecKey, std::vector\<std::string\> *pvecVal, Pipeline ppLine = nullptr);  
   
 /* interfaces for hash */  
 int [Hdel](http://www.redis.cn/commands/hdel.html)(const std::string &strKey, const std::string &strField, long *pnVal = nullptr, Pipeline ppLine = nullptr)  
@@ -154,7 +154,7 @@ int [Hmget](http://www.redis.cn/commands/hmget.html)(const std::string &strKey, 
 int [Hmget](http://www.redis.cn/commands/hmget.html)(const std::string &strKey, const std::set\<std::string\> &setField, std::map<std::string, std::string> *pmapVal)  
 int [Hmset](http://www.redis.cn/commands/hmset.html)(const std::string &strKey, const std::vector\<std::string\> &vecField, const std::vector\<std::string\> &vecVal, Pipeline ppLine = nullptr)  
 int [Hmset](http://www.redis.cn/commands/hmset.html)(const std::string &strKey, const std::map<std::string, std::string> &mapFv, Pipeline ppLine = nullptr)  
-//int Hscan(const std::string &strKey, long *pnCursor, const std::string &strMatch, long nCount, std::vector\<std::string\> *pvecVal);  
+int [Hscan](http://www.redis.cn/commands/hscan.html)(const std::string &strKey, long *pnCursor, const std::string &strMatch, long nCount, std::vector\<std::string\> *pvecVal);  
 int [Hset](http://www.redis.cn/commands/hset.html)(const std::string &strKey, const std::string &strField, const std::string &strVal, Pipeline ppLine = nullptr)  
 int [Hsetnx](http://www.redis.cn/commands/hsetnx.html)(const std::string &strKey, const std::string &strField, const std::string &strVal, Pipeline ppLine = nullptr)  
 int [Hvals](http://www.redis.cn/commands/hvals.html)(const std::string &strKey, std::vector\<std::string\> *pvecVal, Pipeline ppLine = nullptr)  
