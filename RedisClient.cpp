@@ -1423,8 +1423,16 @@ int CRedisClient::Scard(const std::string &strKey, long *pnVal, Pipeline ppLine)
     return ExecuteImpl("scard", strKey, HASH_SLOT(strKey), ppLine, BIND_INT(pnVal));
 }
 
-//int CRedisClient::Sdiff(const std::vector<std::string> &vecKey, std::vector<std::string> *pvecVal, Pipeline ppLine = nullptr);
-//int CRedisClient::Sinter(const std::vector<std::string> &vecKey, std::vector<std::string> *pvecVal, Pipeline ppLine = nullptr);
+int CRedisClient::Sdiff(const std::vector<std::string> &vecKey, std::vector<std::string> *pvecVal, Pipeline ppLine)
+{
+    return (vecKey.size() > 0) ? ExecuteImpl("sdiff", vecKey, HASH_SLOT(*vecKey.begin()), ppLine, BIND_VSTR(pvecVal)) : RC_PARAM_ERR;
+}
+
+int CRedisClient::Sinter(const std::vector<std::string> &vecKey, std::vector<std::string> *pvecVal, Pipeline ppLine)
+{
+    return (vecKey.size() > 0) ? ExecuteImpl("sinter", vecKey, HASH_SLOT(*vecKey.begin()), ppLine, BIND_VSTR(pvecVal)) : RC_PARAM_ERR;
+}
+
 int CRedisClient::Sismember(const std::string &strKey, const std::string &strVal, long *pnVal, Pipeline ppLine)
 {
     return ExecuteImpl("sismember", strKey, strVal, HASH_SLOT(strKey), ppLine, BIND_INT(pnVal));
@@ -1451,7 +1459,10 @@ int CRedisClient::Srem(const std::string &strKey, const std::vector<std::string>
     return ExecuteImpl("srem", strKey, vecVal, HASH_SLOT(strKey), ppLine, BIND_INT(pnVal));
 }
 
-//int CRedisClient::Sunion(const std::vector<std::string> &vecKey, std::vector<std::string> *pvecVal, Pipeline ppLine = nullptr);
+int CRedisClient::Sunion(const std::vector<std::string> &vecKey, std::vector<std::string> *pvecVal, Pipeline ppLine)
+{
+    return (vecKey.size() > 0) ? ExecuteImpl("sunion", vecKey, HASH_SLOT(*vecKey.begin()), ppLine, BIND_VSTR(pvecVal)) : RC_PARAM_ERR;
+}
 
 /* interfaces for hash */
 int CRedisClient::Hdel(const std::string &strKey, const std::string &strField, long *pnVal, Pipeline ppLine)
