@@ -45,7 +45,7 @@ int main(int argc, char **argv) {
 ```
 更多测试用例，请看[test](test/)目录。
 
-## 代办事项
+## 待办事项
 * 实现`Scan`与`Hscan`接口，也就意味着目前这两个接口不支持。
 
 ## 接口一览
