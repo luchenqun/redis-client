@@ -214,7 +214,7 @@ int [Time](http://www.redis.cn/commands/time.html)(struct timeval *ptmVal, Pipel
 构造函数，构造一个CRedisClient对象。
 
 ### bool Initialize(const std::string &strHost, int nPort, int nTimeout, int nConnNum)
-初始化链接。
+初始化链接。strHost：服务器IP。nPort：服务器端口。nTimeout: 连接超时时间，单位秒。nConnNum：连接池数目  
 
 ------------------------------------------------------------------------
 
