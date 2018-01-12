@@ -16,7 +16,7 @@
 ## 代码示例
 ```cpp
 #include <string>
-#include "RedisClient.hpp"
+#include "RedisClient.h"
 
 int main(int argc, char **argv) {
     CRedisClient* redisCli = CRedisClient::Instance();
