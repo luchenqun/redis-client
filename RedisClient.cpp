@@ -1,4 +1,4 @@
-#include "RedisClient.hpp"
+#include "RedisClient.h"
 
 #define BIND_INT(val) std::bind(&FetchInteger, std::placeholders::_1, val)
 #define BIND_STR(val) std::bind(&FetchString, std::placeholders::_1, val)
@@ -1102,7 +1102,11 @@ int CRedisClient::Restore(const std::string &strKey, long nTtl, const std::strin
 
 int CRedisClient::Scan(long *pnCursor, const std::string &strPattern, long nCount, std::vector<std::string> *pvecVal)
 {
-    return RC_SUCCESS;
+    UNUSED(pnCursor);
+    UNUSED(strPattern);
+    UNUSED(nCount);
+    UNUSED(pvecVal);
+    return RC_NOT_SUPPORT;
 }
 
 int CRedisClient::Ttl(const std::string &strKey, long *pnVal, Pipeline ppLine)

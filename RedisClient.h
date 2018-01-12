@@ -36,6 +36,8 @@
 
 #define FUNC_DEF_CONV       [](int nRet, redisReply *) { return nRet; }
 
+#define UNUSED(x) (void)(x)
+
 typedef std::function<int (redisReply *)> TFuncFetch;
 typedef std::function<int (int, redisReply *)> TFuncConvert;
 
