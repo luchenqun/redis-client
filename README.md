@@ -45,7 +45,27 @@ int main(int argc, char **argv) {
 ```
 更多测试用例，请看[test](test/)目录。
 
+## 代办事项
+* 实现`Scan`与`Hscan`接口，也就意味着目前这两个接口不支持。
+
 ## 接口一览
+先说一下调用接口的一些返回值，在后面文档均用RequestRet描述。   
+
+| Macro definition | Value | Description         |
+| :--------------- | :---- | :------------------ |
+| RC_RESULT_EOF    | 5     | 无结果再可取        |
+| RC_OBJ_NOT_EXIST | 3     | 对象不存在          |
+| RC_OBJ_EXIST     | 2     | 对象存在            |
+| RC_PART_SUCCESS  | 1     | 部分调用成功        |
+| RC_SUCCESS       | 0     | 调用成功            |
+| RC_PARAM_ERR     | -1    | 参数错误            |
+| RC_REPLY_ERR     | -2    | 调用返回类型错误    |
+| RC_RQST_ERR      | -3    | 重连失败            |
+| RC_NO_RESOURCE   | -4    | 无连接              |
+| RC_PIPELINE_ERR  | -5    | ppLine 传参错误     |
+| RC_NOT_SUPPORT   | -6    | Redis不支持或未实现 |
+
+
 static CRedisClient* Instance()  
 CRedisClient()  
 // nTimeout: 连接超时时间，单位秒。nConnNum：连接池数目   
@@ -186,21 +206,6 @@ int [Zscore](http://www.redis.cn/commands/zscore.html)(const std::string &strKey
 int [Time](http://www.redis.cn/commands/time.html)(struct timeval *ptmVal, Pipeline ppLine = nullptr)  
 
 ## API 使用详细说明
-先说一下调用接口的一些返回值，在后面文档均用RequestRet描述。   
-
-| Macro definition | Value | Description     |
-| :--------------- | :---- | :-------------- |
-| RC_RESULT_EOF    | 5     | 无结果再可取     |
-| RC_OBJ_NOT_EXIST | 3     | 对象不存在       |
-| RC_OBJ_EXIST     | 2     | 对象存在         |
-| RC_PART_SUCCESS  | 1     | 部分调用成功     |
-| RC_SUCCESS       | 0     | 调用成功        |
-| RC_PARAM_ERR     | -1    | 参数错误        |
-| RC_REPLY_ERR     | -2    | 调用返回类型错误 |
-| RC_RQST_ERR      | -3    | 重连失败        |
-| RC_NO_RESOURCE   | -4    | 无连接          |
-| RC_PIPELINE_ERR  | -5    | ppLine 传参错误 |
-| RC_NOT_SUPPORT   | -6    | Redis服务不支持 |
 
 ### static CRedisClient* Instance()
 获取单例指针。
