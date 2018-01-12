@@ -305,7 +305,8 @@ public:
     int Sismember(const std::string &strKey, const std::string &strVal, long *pnVal, Pipeline ppLine = nullptr);
     int Smembers(const std::string &strKey, std::vector<std::string> *pvecVal, Pipeline ppLine = nullptr);
     int Spop(const std::string &strKey, std::string *pstrVal, Pipeline ppLine = nullptr);
-    int Srandmember(const std::string &strKey, long nCount, std::vector<std::string> *pvecVal, Pipeline ppLine = nullptr);
+    int Srandmember(const std::string &strKey, std::string *pstrVal, Pipeline ppLine = nullptr);
+    int Srandmember(const std::string &strKey, long &nCount, std::vector<std::string> *pvecVal, Pipeline ppLine = nullptr);
     int Srem(const std::string &strKey, const std::string &strVal, long *pnVal = nullptr, Pipeline ppLine = nullptr);
     int Srem(const std::string &strKey, const std::vector<std::string> &vecVal, long *pnVal = nullptr, Pipeline ppLine = nullptr);
     int Sunion(const std::vector<std::string> &vecKey, std::vector<std::string> *pvecVal, Pipeline ppLine = nullptr);

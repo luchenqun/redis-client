@@ -1448,7 +1448,16 @@ int CRedisClient::Spop(const std::string &strKey, std::string *pstrVal, Pipeline
     return ExecuteImpl("spop", strKey, HASH_SLOT(strKey), ppLine, BIND_STR(pstrVal));
 }
 
-//int CRedisClient::Srandmember(const std::string &strKey, long nCount, std::vector<std::string> *pvecVal, Pipeline ppLine = nullptr);
+int CRedisClient::Srandmember(const std::string &strKey, std::string *pstrVal, Pipeline ppLine)
+{
+    return ExecuteImpl("srandmember", strKey, HASH_SLOT(strKey), ppLine, BIND_STR(pstrVal));
+}
+
+int CRedisClient::Srandmember(const std::string &strKey, long &nCount, std::vector<std::string> *pvecVal, Pipeline ppLine)
+{
+    return ExecuteImpl("srandmember", strKey, std::to_string(nCount), HASH_SLOT(strKey), ppLine, BIND_VSTR(pvecVal));
+}
+
 int CRedisClient::Srem(const std::string &strKey, const std::string &strVal, long *pnVal, Pipeline ppLine)
 {
     return ExecuteImpl("srem", strKey, strVal, HASH_SLOT(strKey), ppLine, BIND_INT(pnVal));
