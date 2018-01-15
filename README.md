@@ -82,6 +82,7 @@ int FetchReply(Pipeline ppLine, redisReply **pReply)
 void FreePipeline(Pipeline ppLine)  
 
 /* interfaces for generic */  
+Redis 键命令用于管理 redis 的键。    
 int [Del](http://www.redis.cn/commands/del.html)(const std::string &strKey, long *pnVal = nullptr, Pipeline ppLine = nullptr)  
 int [Dump](http://www.redis.cn/commands/dump.html)(const std::string &strKey, std::string *pstrVal, Pipeline ppLine = nullptr)  
 int [Exists](http://www.redis.cn/commands/exists.html)(const std::string &strKey, long *pnVal, Pipeline ppLine = nullptr)  
@@ -100,7 +101,8 @@ int [Scan](http://www.redis.cn/commands/scan.html)(long *pnCursor, const std::st
 int [Ttl](http://www.redis.cn/commands/ttl.html)(const std::string &strKey, long *pnVal, Pipeline ppLine = nullptr)  
 int [Type](http://www.redis.cn/commands/type.html)(const std::string &strKey, std::string *pstrVal, Pipeline ppLine = nullptr)  
   
-/* interfaces for string */  
+/* interfaces for string */   
+Redis 字符串数据类型的相关命令用于管理 redis 字符串值。   
 int [Append](http://www.redis.cn/commands/append.html)(const std::string &strKey, const std::string &strVal, long *pnVal = nullptr, Pipeline ppLine = nullptr)  
 int [Bitcount](http://www.redis.cn/commands/bitcount.html)(const std::string &strKey, long *pnVal, Pipeline ppLine = nullptr)  
 int [Bitcount](http://www.redis.cn/commands/bitcount.html)(const std::string &strKey, long nStart, long nEnd, long *pnVal, Pipeline ppLine = nullptr)  
@@ -127,6 +129,8 @@ int [Setrange](http://www.redis.cn/commands/setrange.html)(const std::string &st
 int [Strlen](http://www.redis.cn/commands/strlen.html)(const std::string &strKey, long *pnVal, Pipeline ppLine = nullptr)  
   
 /* interfaces for list */  
+Redis列表是简单的字符串列表，按照插入顺序排序。你可以添加一个元素到列表的头部（左边）或者尾部（右边)。   
+一个列表最多可以包含2的32次方-1个元素(4294967295, 每个列表超过40亿个元素)。  
 int [Blpop](http://www.redis.cn/commands/blpop.html)(const std::string &strKey, long nTimeout, std::vector\<std::string\> *pvecVal)  
 int [Blpop](http://www.redis.cn/commands/blpop.html)(const std::vector\<std::string\> &vecKey, long nTimeout, std::vector\<std::string\> *pvecVal)  
 int [Brpop](http://www.redis.cn/commands/brpop.html)(const std::string &strKey, long nTimeout, std::vector\<std::string\> *pvecVal)  
@@ -148,6 +152,9 @@ int [Rpush](http://www.redis.cn/commands/rpush.html)(const std::string &strKey, 
 int [Rpushx](http://www.redis.cn/commands/rpushx.html)(const std::string &strKey, const std::string &strVal, long *pnVal = nullptr, Pipeline ppLine = nullptr)  
   
 /* interfaces for set */  
+Redis 的 Set 是 String 类型的无序集合。集合成员是唯一的，这就意味着集合中不能出现重复的数据。   
+Redis 中集合是通过哈希表实现的，所以添加，删除，查找的复杂度都是 O(1)。   
+集合中最大的成员数为2的32次方-1个元素(4294967295, 每个集合可存储40多亿个成员)。   
 int [Sadd](http://www.redis.cn/commands/sadd.html)(const std::string &strKey, const std::string &strVal, long *pnVal = nullptr, Pipeline = nullptr)  
 int [Scard](http://www.redis.cn/commands/scard.html)(const std::string &strKey, long *pnVal, Pipeline = nullptr)  
 int [Sdiff](http://www.redis.cn/commands/sdiff.html)(const std::vector\<std::string\> &vecKey, std::vector\<std::string\> *pvecVal, Pipeline ppLine = nullptr);  
@@ -161,6 +168,8 @@ int [Srem](http://www.redis.cn/commands/srem.html)(const std::string &strKey, co
 int [Sunion](http://www.redis.cn/commands/sunion.html)(const std::vector\<std::string\> &vecKey, std::vector\<std::string\> *pvecVal, Pipeline ppLine = nullptr);  
   
 /* interfaces for hash */  
+Redis hash 是一个string类型的field和value的映射表，hash特别适合用于存储对象。   
+Redis 中每个 hash 可以存储2的32次方-1个键值对（40多亿）。   
 int [Hdel](http://www.redis.cn/commands/hdel.html)(const std::string &strKey, const std::string &strField, long *pnVal = nullptr, Pipeline ppLine = nullptr)  
 int [Hexists](http://www.redis.cn/commands/hexists.html)(const std::string &strKey, const std::string &strField, long *pnVal, Pipeline ppLine = nullptr)  
 int [Hget](http://www.redis.cn/commands/hget.html)(const std::string &strKey, const std::string &strField, std::string *pstrVal, Pipeline ppLine = nullptr)  
@@ -180,6 +189,10 @@ int [Hsetnx](http://www.redis.cn/commands/hsetnx.html)(const std::string &strKey
 int [Hvals](http://www.redis.cn/commands/hvals.html)(const std::string &strKey, std::vector\<std::string\> *pvecVal, Pipeline ppLine = nullptr)  
   
 /* interfaces for sorted set */  
+Redis 有序集合和集合一样也是string类型元素的集合,且不允许重复的成员。   
+不同的是每个元素都会关联一个double类型的分数。redis正是通过分数来为集合中的成员进行从小到大的排序。   
+有序集合的成员是唯一的,但分数(score)却可以重复。   
+集合是通过哈希表实现的，所以添加，删除，查找的复杂度都是O(1)。 集合中最大的成员数为2的32次方-1个(4294967295, 每个集合可存储40多亿个成员)。   
 int [Zadd](http://www.redis.cn/commands/zadd.html)(const std::string &strKey, double dScore, const std::string &strElem, long *pnVal = nullptr, Pipeline = nullptr)  
 int [Zcard](http://www.redis.cn/commands/zcard.html)(const std::string &strKey, long *pnVal, Pipeline = nullptr)  
 int [Zcount](http://www.redis.cn/commands/zcount.html)(const std::string &strKey, double dMin, double dMax, long *pnVal, Pipeline ppLine = nullptr)  
@@ -203,6 +216,7 @@ int [Zrevrank](http://www.redis.cn/commands/zrevrank.html)(const std::string &st
 int [Zscore](http://www.redis.cn/commands/zscore.html)(const std::string &strKey, const std::string &strElem, double *pdVal, Pipeline ppLine = nullptr)  
   
 /* interfaces for system */  
+Redis 服务器命令主要是用于管理 redis 服务（只实现一个）。  
 int [Time](http://www.redis.cn/commands/time.html)(struct timeval *ptmVal, Pipeline ppLine = nullptr)  
 
 ## API 使用详细说明
