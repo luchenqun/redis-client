@@ -16,6 +16,7 @@
 #include <algorithm>
 #include <pthread.h>
 #include <string.h>
+#include <mutex>
 
 #define RC_RESULT_EOF       5
 #define RC_NO_EFFECT        4
@@ -182,6 +183,7 @@ private:
     std::queue<CRedisConnection *> m_queIdleConn;
     std::vector<std::pair<std::string, int> > m_vecHosts;
     std::mutex m_mutexConn;
+    std::condition_variable m_cv;
 };
 
 class CRedisClient;

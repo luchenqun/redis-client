@@ -741,21 +741,23 @@ void CRedisServer::SetSlave(const std::string &strHost, int nPort)
 CRedisConnection * CRedisServer::FetchConnection()
 {
     CRedisConnection *pRedisConn = nullptr;
-    m_mutexConn.lock();
+
+    std::unique_lock<std::mutex> lk(m_mutexConn);
+    m_cv.wait(lk, [this]{ return !this->m_queIdleConn.empty(); });
+
     if (!m_queIdleConn.empty())
     {
         pRedisConn = m_queIdleConn.front();
         m_queIdleConn.pop();
     }
-    m_mutexConn.unlock();
     return pRedisConn;
 }
 
 void CRedisServer::ReturnConnection(CRedisConnection *pRedisConn)
 {
-    m_mutexConn.lock();
+//    std::this_thread::sleep_for(std::chrono::milliseconds(300)); // test thread
     m_queIdleConn.push(pRedisConn);
-    m_mutexConn.unlock();
+    m_cv.notify_one();
 }
 
 bool CRedisServer::Initialize()
