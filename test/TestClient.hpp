@@ -31,7 +31,7 @@ class CTestClient
 {
 public:
     CTestClient();
-
+    CRedisClient* getRC(){ return &m_redis; }
 protected:
     static bool PrintResult(const std::string &strCmd, bool bSuccess);
     bool InitStringEnv(int nDel, int nSet);

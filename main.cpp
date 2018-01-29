@@ -1,4 +1,5 @@
 #include <string>
+#include <thread>
 #include "test/TestBase.hpp"
 #include "test/TestGeneric.hpp"
 #include "test/TestString.hpp"
@@ -24,6 +25,25 @@ int main(int argc, char **argv) {
         CTestBase testBase;
         if (!testBase.StartTest(strHost))
             break;
+
+        cout << "=============ThreadTest=============" << endl;
+        cout << "多线程测试，在TestBase里面只开了10个连接，用20个线程同时去读Redis数据" << endl;
+        CRedisClient* r = testBase.getRC();
+        std::string strKey = "name";
+        std::string strVal = "luchenqun";
+        cout << "Set ret = " << r->Set(strKey, strVal) << endl;
+        std::vector<std::thread> tv;
+        for(int j = 1; j <= 20 ; ++j) {
+            std::thread t([&r, &strKey, &strVal]{
+                strVal = "";
+                int ret = r->Get(strKey, &strVal);
+                std::cout << "thread id = " << std::this_thread::get_id() << ", request ret = " << ret << ", val = " << strVal << std::endl;
+            });
+            tv.push_back(std::move(t));
+        }
+        for(auto &thread : tv) {
+            thread.join();
+        }
 
         cout << "=============CTestGeneric=============" << endl;
         CTestGeneric testKeys;
