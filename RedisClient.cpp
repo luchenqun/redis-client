@@ -756,6 +756,7 @@ CRedisConnection * CRedisServer::FetchConnection()
 void CRedisServer::ReturnConnection(CRedisConnection *pRedisConn)
 {
 //    std::this_thread::sleep_for(std::chrono::milliseconds(300)); // test thread
+    std::unique_lock<std::mutex> lk(m_mutexConn);
     m_queIdleConn.push(pRedisConn);
     m_cv.notify_one();
 }
