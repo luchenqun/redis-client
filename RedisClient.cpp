@@ -724,13 +724,12 @@ CRedisServer::~CRedisServer()
 
 void CRedisServer::CleanConn()
 {
-    m_mutexConn.lock();
+    std::lock_guard<std::mutex> lg(m_mutexConn);
     while (!m_queIdleConn.empty())
     {
         delete m_queIdleConn.front();
         m_queIdleConn.pop();
     }
-    m_mutexConn.unlock();
 }
 
 void CRedisServer::SetSlave(const std::string &strHost, int nPort)
@@ -740,11 +739,10 @@ void CRedisServer::SetSlave(const std::string &strHost, int nPort)
 
 CRedisConnection * CRedisServer::FetchConnection()
 {
-    CRedisConnection *pRedisConn = nullptr;
-
     std::unique_lock<std::mutex> lk(m_mutexConn);
     m_cv.wait(lk, [this]{ return !this->m_queIdleConn.empty(); });
 
+    CRedisConnection *pRedisConn = nullptr;
     if (!m_queIdleConn.empty())
     {
         pRedisConn = m_queIdleConn.front();
@@ -756,7 +754,7 @@ CRedisConnection * CRedisServer::FetchConnection()
 void CRedisServer::ReturnConnection(CRedisConnection *pRedisConn)
 {
 //    std::this_thread::sleep_for(std::chrono::milliseconds(300)); // test thread
-    std::unique_lock<std::mutex> lk(m_mutexConn);
+    std::lock_guard<std::mutex> lk(m_mutexConn);
     m_queIdleConn.push(pRedisConn);
     m_cv.notify_one();
 }

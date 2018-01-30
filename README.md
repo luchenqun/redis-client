@@ -10,8 +10,9 @@
 * 不支持Windows
 
 ## 使用准备
-* 如果你要运行main.cpp执行测试用例，请先执行命令 `sudo cp ./lib/linux/libhiedis.a /usr/lib/` 将库拷贝到系统库目录(`cpp-ethereum`项目会生成hiredis库，所以不需要执行此操作)。再执行 `mkdir build && cd build && cmake .. && make && ./redis-client` 即可完成编译运行。
-* 如果你要在 `cpp-ethereum` 项目中使用此功能。比如，你想在 `libjujsonrpc` 中使用。那么请在 `libjujsonrpc` 的 `CMakeLists.txt` 中添加头文件 `target_include_directories(jujsonrpc PRIVATE ${HIREDIS_INCLUDE_DIR})` 以及库文件 `target_link_libraries(jujsonrpc ${HIREDIS_LIBRARY})` 。当然，有些可能因为他所包含的文件已经包含了该头文件与库，不需要添加。还有，不要忘记添加需要使用的头文件`#include "libjuredisclient/RedisClient.h"`。需要注意的是，因为把Redis作为一项服务，所以已经在文件 `jueth/main.cpp` 文件中已经调用了 `redis->Initialize("127.0.0.1", chainParams.m_redis_port, 2, 100)` 从而执行Redis客户端连接服务端等一些初始化工作。所以你在其他地方再使用Redis做操作的时候，只需要使用代码`CRedisClient::Instance()`获取一个指针实例之后就可以直接使用，不再需要执行初始化的工作。当然，如果你需要连接与默认不一样的Redis地址与端口，那么你需要使用`CRedisClient()`构造一个实例，再用此实例进行初始化才能调用Redis的操作。
+* 如果你要运行main.cpp执行测试用例，执行 `mkdir build && cd build && cmake .. && make && ./redis-client` 即可完成编译运行。
+* 如果你要在 `cpp-ethereum` 项目中使用此功能。比如，你想在 `libjujsonrpc` 中使用。那么请在 `libjujsonrpc` 的 `CMakeLists.txt` 中添加头文件 `target_include_directories(jujsonrpc PRIVATE ${HIREDIS_INCLUDE_DIR})` 以及库文件 `target_link_libraries(jujsonrpc ${HIREDIS_LIBRARY})` 。当然，有些可能因为他所包含的文件已经包含了该头文件与库，不需要添加。还有，不要忘记添加需要使用的头文件`#include "libjuredisclient/RedisClient.h"`。需要注意的是，因为把Redis作为一项服务，所以已经在文件 `jueth/main.cpp` 文件中已经调用了 `redis->Initialize("127.0.0.1", chainParams.m_redis_port, 2, 10)` 从而执行Redis客户端连接服务端等一些初始化工作。所以你在其他地方再使用Redis做操作的时候，只需要使用代码`CRedisClient::Instance()`获取一个指针实例之后就可以直接使用，不再需要执行初始化的工作。当然，如果你需要连接与默认不一样的Redis地址与端口，那么你需要使用`CRedisClient()`构造一个实例，再用此实例进行初始化才能调用Redis的操作。
+* 如果你需要使用 hiredis 库文件，库文件在`lib`目录下面。
 
 ## 代码示例
 ```cpp
